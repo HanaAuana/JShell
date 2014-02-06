@@ -18,13 +18,14 @@ class Shell {
 		boolean running = true;
 
 		Scanner scanner = new Scanner(System.in);
-
-
+                int numCmds = 0; 
+                String input = "";
 		while (running){
 			System.out.print(">");
 
-			String input = scanner.nextLine();
-
+			input = scanner.nextLine();
+                         
+                        String[] cmds = input.split(" ");
 			if(input.equals("exit")){
 				System.out.println("Exiting");
 				System.exit(0);
@@ -35,8 +36,15 @@ class Shell {
 			else{
 
 				//System.out.println("Input: "+input);
-				Process p = Shell.runCommand(input);
+				Process p = Shell.runCommand(cmds);
+                                if(p == null){
 
+
+
+				}
+				else
+
+				{
 				BufferedReader standardOut = new BufferedReader(new InputStreamReader(p.getInputStream()));
 				BufferedReader standardError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
 				String o = "";
@@ -52,7 +60,7 @@ class Shell {
 					while ((temp =standardError.readLine()) != null) {
 						err += temp;
 					}
-					if (err.contains("not recognized as an internal or external command")){
+					if (err.contains("Cannot run program")){
 						System.out.println("Bad command: "+input);
 					}
 					else{
@@ -63,21 +71,22 @@ class Shell {
 					
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					System.out.println("Bad command: " + input);	
 				}
 				//System.out.println(p.getInputStream());
+				}
 			}
 		}
 	}
 
-	public static Process runCommand(String input){
+	public static Process runCommand(String[] input){
 		Runtime runtime = Runtime.getRuntime();
 
 		try {
-			return runtime.exec(new String[]{"cmd.exe", "/C", input});
+			return runtime.exec(input);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Bad command: " + input);	
 		}
 		return null;
 	}
