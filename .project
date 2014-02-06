@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
+<<<<<<< HEAD
 	<name>JShell</name>
+=======
+	<name>Shell</name>
+>>>>>>> f693469807162e5c465248072adef3c8cec454f9
 	<comment></comment>
 	<projects>
 	</projects>
